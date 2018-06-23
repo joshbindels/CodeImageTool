@@ -1,5 +1,6 @@
 from constants import *
 from ImageHandler import ImageHandler
+import sys
 
 x_pos = 0
 y_pos = 0
@@ -13,8 +14,8 @@ def read_file_contents(file_name):
     file_content = file_content.split("\n")
 
 if __name__ == "__main__":
-    ih = ImageHandler("test.png")
-    read_file_contents("example_file.c")
+    ih = ImageHandler(sys.argv[2])
+    read_file_contents(sys.argv[1])
     ih.create_image(len(file_content), WHITE)
 
     for line in file_content:
