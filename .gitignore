@@ -1,6 +1,3 @@
-build
-dist
-venv
 .DS_STORE
-*.pyc
 test.png
+*.png

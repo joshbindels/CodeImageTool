@@ -1,2 +1,0 @@
-cx-Freeze==5.1.1
-Pillow==5.1.0
