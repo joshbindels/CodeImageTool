@@ -2,3 +2,5 @@
 test.png
 *.png
 example_file.c
+src/APP
+*.swp
