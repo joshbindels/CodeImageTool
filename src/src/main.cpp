@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 #include <sstream>
+#include <regex>
 #include "CONST.hpp"
 
 #define LOG(x) std::cout << x << std::endl;
@@ -65,27 +66,65 @@ private:
 
 
 
+std::string getFullString(std::string& fullStr, std::string quoteChar, int& i)
+{
+    std::string res = quoteChar;
+    i++;
+    while(fullStr[i] != quoteChar[0])
+    {
+        res += fullStr[i++];
+    }
+    res += fullStr[i++];
+    return res;
+}
+
+std::string getFullRegex(std::string& fullStr, int& i, std::string re)
+{
+    std::string res;
+    while(std::regex_match(std::string(1, fullStr[i]), std::regex(re)))
+    {
+        res += fullStr[i++];
+    }
+    return res;
+}
+
 int main(int, char**)
 {
     std::vector<Token> lex;
 
-    for(char &c: TEST_STRING)
+    for(int i=0; i<TEST_STRING.length(); i++)
     {
-        TOKEN_TYPE t = TOKEN_TYPE::UNKNOWN;
-        std::string value;
-        std::string symbols = "!@#$%^&*()_+/?.,<>|\\~`±§-={}[]";
+        std::string symbols = "!%^&*()_+/?.,<>|`~-={}[]";
 
-        if(c == ' ' || c == '\n')
+        if(TEST_STRING[i] == ' ' || TEST_STRING[i] == '\n')
         {
-            t = TOKEN_TYPE::WHITESPACE;
+            lex.push_back(Token(TOKEN_TYPE::WHITESPACE, std::string(1, TEST_STRING[i])));
         }
-        else if (symbols.find(c) != std::string::npos)
+        else if(symbols.find(TEST_STRING[i]) != std::string::npos)
         {
-            t = TOKEN_TYPE::SYMBOL;
+            lex.push_back(Token(TOKEN_TYPE::SYMBOL, std::string(1, TEST_STRING[i])));
+        }
+        else if(TEST_STRING[i] == '\"' || TEST_STRING[i] == '\'')
+        {
+            std::string a = getFullString(TEST_STRING, std::string(1, TEST_STRING[i]), i);
+            lex.push_back(Token(TOKEN_TYPE::STRING, a));
+        }
+        else if(std::regex_match(std::string(1, TEST_STRING[i]), std::regex("[.0-9]")))
+        {
+            std::string a = getFullRegex(TEST_STRING, i, "[.0-9]");
+            lex.push_back(Token(TOKEN_TYPE::NUMBER, a));
+        }
+        else if(std::regex_match(std::string(1, TEST_STRING[i]), std::regex("[_a-zA-Z]")))
+        {
+            std::string a = getFullRegex(TEST_STRING, i, "[_a-zA-Z]");
+            lex.push_back(Token(TOKEN_TYPE::KEYWORD, a));
+        }
+        else
+        {
+            lex.push_back(Token(TOKEN_TYPE::UNKNOWN, std::string(1, TEST_STRING[i])));
         }
 
-        value = c;
-        lex.push_back(Token(t, value));
+
     }
 
     for(Token &l: lex)

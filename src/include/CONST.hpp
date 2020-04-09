@@ -4,4 +4,4 @@
 
 #define A 3
 
-std::string TEST_STRING = "This is \n a test + string / abc - =";
+std::string TEST_STRING = "int main(int charc, char** charv){ int a = 123; }";
