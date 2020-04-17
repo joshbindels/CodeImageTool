@@ -4,7 +4,6 @@
 #include <sstream>
 #include <regex>
 #include <algorithm>
-#include "CONST.hpp"
 #include <opencv2/opencv.hpp>
 #include "TokenizerCPP.hpp"
 
