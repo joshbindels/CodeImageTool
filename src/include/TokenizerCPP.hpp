@@ -9,6 +9,7 @@ class TokenizerCPP: public ITokenizer
 {
 public:
     TokenizerCPP();
+    TokenizerCPP(std::string symbols, std::vector<std::string> keywords);
     ~TokenizerCPP();
     void SetSource(std::string source) override;
     std::vector<Token> GetTokens() override;

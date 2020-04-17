@@ -10,6 +10,13 @@ TokenizerCPP::TokenizerCPP()
 
 }
 
+TokenizerCPP::TokenizerCPP(std::string symbols, std::vector<std::string> keywords)
+    : m_Source("")
+    , m_Symbols(symbols)
+    , m_Keywords(keywords)
+{
+}
+
 TokenizerCPP::~TokenizerCPP() {}
 
 void TokenizerCPP::SetSource(std::string source)
